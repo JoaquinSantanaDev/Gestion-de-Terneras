@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition template="/layout/layoutLogin.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">
+		<c:set var="title" value="SGP" scope="request" />
+	</ui:define>
+	<ui:define name="content">
+		<c:if test="#{gestionSesison.getCurrentInstance().getLoggedUser()!=null}">
+			<div class="error">
+				<h1 class="error-lbl">Debe cerrar sesión para ingresar a esta página</h1>
+		 		<form action="/Proyecto/index.xhtml"><input type="submit" value="Volver a la sesión" class="error-btn"></input></form>
+			</div>
+	 	</c:if>
+	 	<c:if test="#{gestionSesison.getCurrentInstance().getLoggedUser()==null}">
+	 		<body>
+		 		<div class="content">
+		 			<h:form class="form-control">
+						 <p:messages id="messages" showDetail="true" closable="true">
+				        	<p:autoUpdate />
+				    	</p:messages>
+						<h:panelGrid columns="3" class="container">
+							<p:outputLabel value="Nombre de usuario" class="lbl"/>
+							<h:inputText id="usName" value="#{gestionUsuario.usName}" class="input"/>
+							<h:message for="usName"></h:message>
+							<p:outputLabel value="Contraseña" class="lbl"/>
+							<h:inputSecret id="usPass" value="#{gestionUsuario.usPass}" class="input"/>
+							<h:message for="usPass"></h:message>
+						</h:panelGrid>
+						<h:commandButton value="Iniciar Sesion"	action="#{gestionUsuario.validarUsuario()}" class="btn"/>
+					</h:form>
+		 		</div>
+			</body>
+	 	</c:if>
+	</ui:define>
+</ui:composition>

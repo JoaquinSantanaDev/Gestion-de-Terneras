@@ -1,0 +1,103 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">
+		<c:set var="title" value="Datos de Usuairo" scope="request" />
+	</ui:define>
+	
+	<ui:define name="content">
+			 
+		<f:metadata>
+		    <f:viewParam name="id" value="#{gestionUsuario.id}" />
+		    <f:viewParam name="modalidad" value="#{gestionUsuario.modalidad}" />
+		    <f:event type="preRenderView" listener="#{gestionUsuario.preRenderViewListener}"/>
+		</f:metadata>
+
+		<h:form id="idDatosUsaurio">
+			 
+			<p:messages id="messages" showDetail="true" closable="true">
+	        	<p:autoUpdate />
+	    	</p:messages>
+	    	<c:if test="#{gestionUsuario.getModalidad() == 'view'}">
+	    		<h:commandButton id="idVolver" immediate="true=" value="Volver"	action="Usuarios" >
+    			</h:commandButton> 
+	    	</c:if>
+	    	<c:if test="#{gestionUsuario.getModalidad() != 'view'}">
+	    		<h:button value="Volver" outcome="/index" ></h:button>
+	    	</c:if>
+			<h:commandButton id="idModificar"  value="Modificar" rendered="#{!gestionUsuario.modoEdicion}"	>
+	    			<f:param name="id" value="${gestionUsuario.id}" />
+	    			<f:param name="modalidad" value="update" />
+			</h:commandButton> 
+			<h:commandButton value="Aceptar" rendered="#{gestionUsuario.modoEdicion}" 
+				update=":form" 	action="#{gestionUsuario.salvarCambios}">
+			    	<f:param name="id" value="${gestionUsuario.id}" />
+	    			<f:param name="modalidad" value="update" />
+			</h:commandButton>
+			<c:if test="#{gestionUsuario.modalidad.equals('view')}">
+				<c:if test="#{gestionUsuario.usuarioSeleccionado.estado==1}">
+					<f:facet name="header">Eliminar</f:facet>
+					<h:commandButton value="Eliminar"
+						update=":form" 	action="#{gestionUsuario.salvarCambios}">
+						   	<f:param name="id" value="${gestionUsuario.id}" />
+				    		<f:param name="modalidad" value="drop" />
+				    </h:commandButton>
+				</c:if>
+			</c:if>
+			<c:if test="#{gestionUsuario.modalidad.equals('view')}">
+				<c:if test="#{gestionUsuario.usuarioSeleccionado.estado==0}">
+					<f:facet name="header">Dar de alta</f:facet>
+					<h:commandButton value="Dar de alta"
+						update=":form" 	action="#{gestionUsuario.salvarCambios}">
+						   	<f:param name="id" value="${gestionUsuario.id}" />
+				    		<f:param name="modalidad" value="restore" />
+				    </h:commandButton>
+				</c:if>
+			</c:if>
+			
+			
+			<p:panelGrid columns="3">
+	
+				<p:outputLabel  value="Id" />
+				<p:inputText id="id" disabled="true"  value="#{gestionUsuario.usuarioSeleccionado.id}" />
+				<p:message for="id" style="color:red" />
+				
+				<p:outputLabel value="Nombre" />
+				<p:inputText id="nombre" disabled="#{!gestionUsuario.modoEdicion}" value="#{gestionUsuario.usuarioSeleccionado.nombre}" />
+				<p:message for="nombre" style="color:red" />
+				
+				<p:outputLabel value="Apellido" />
+				<p:inputText id="apellido" disabled="#{!gestionUsuario.modoEdicion}" value="#{gestionUsuario.usuarioSeleccionado.apellido}" />
+				<p:message for="apellido" style="color:red" />
+				
+				<p:outputLabel value="Nombre de usuario" />
+				<p:inputText id="uss" disabled="#{!gestionUsuario.modoEdicion}" value="#{gestionUsuario.usuarioSeleccionado.nombre_usuario}" />
+				<p:message for="uss" style="color:red" />
+	
+				<p:outputLabel value="Contraseña" />
+				<h:inputSecret id="pass" disabled="#{!gestionUsuario.modoEdicion}" value="#{gestionUsuario.usuarioSeleccionado.contrasenia}" />
+				<p:message for="pass" style="color:red" />
+				<p:outputLabel value="Tipo" />
+				<p:selectOneMenu id="type" disabled="#{!gestionUsuario.modoEdicion}" value="#{gestionUsuario.usuarioSeleccionado.tipo}">
+	   				<f:selectItem itemValue="" itemLabel="" />
+	   				<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador" />
+	   				<f:selectItem itemValue="ENCARGADO" itemLabel="Encargado" />
+	   				<f:selectItem itemValue="PERSONAL" itemLabel="Personal" />
+				</p:selectOneMenu>
+				<p:message for="type" style="color:red" />
+
+				<p:outputLabel value="Cedula" />
+				<p:inputText id="att" disabled="#{!gestionUsuario.modoEdicion}" value="#{gestionUsuario.usuarioSeleccionado.dato}" />
+				<p:message for="att" style="color:red" />
+				
+			</p:panelGrid>
+			
+		</h:form>
+
+    </ui:define>
+</ui:composition>

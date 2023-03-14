@@ -1,0 +1,232 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">
+		<c:set var="title" value="Gestion de Terneras" scope="request" />
+	</ui:define>
+	
+	<ui:define name="content">
+	
+	<h:body>
+	
+	    <h:form >
+			<p:panelGrid columns="1">
+				<p:commandButton value="Nueva Ternera" action="#{gestionTerneraBean.limpiarDatosTernera()}" update=":p"  oncomplete="PF('valor1').show();" />
+			</p:panelGrid>
+		</h:form>
+		
+		<p:messages id="messages" showDetail="true" closable="true">
+			<p:autoUpdate />
+		</p:messages>
+		
+	
+		<p:dialog widgetVar="valor1" showEffect="clip"
+			header="Terneras" resizable="false">
+			<h:form id="p">
+				<p:panelGrid columns="2">			
+					<p:outputLabel value="Ingrese Caravana Snig" />
+					<p:inputNumber id="att" value="#{gestionTerneraBean.terneraSelecc.caravana_snig}" maxValue = "999999" decimalPlaces="0"/>
+	
+					<p:outputLabel value="Ingrese Id guachera" />
+					<p:inputNumber value="#{gestionTerneraBean.terneraSelecc.id_guachera}" maxValue = "9999" decimalPlaces="0"/>
+	
+					<p:outputLabel value="Ingrese id madre" />
+					<p:inputNumber value="#{gestionTerneraBean.terneraSelecc.id_madre}" maxValue = "999999" decimalPlaces="0"/>
+					
+					<p:outputLabel value="Ingrese id padre" />
+					<p:inputNumber value="#{gestionTerneraBean.terneraSelecc.id_padre}" maxValue = "999999" decimalPlaces="0"/>
+					
+					<p:outputLabel value="Ingrese fecha de nacimiento" />
+					<p:calendar id="fechaNac" maxdate="today" readonlyInput="true" showOn="button" 
+					effect="drop" autocomplete="off" value="#{gestionTerneraBean.terneraSelecc.fecha_nto}"/>
+					
+					<p:outputLabel value="Ingrese peso al nacer" />
+					<p:inputNumber value="#{gestionTerneraBean.terneraSelecc.peso_al_nacer}" maxValue = "999999" decimalPlaces="0" symbol="KG" symbolPosition="s"/>
+	
+					<p:outputLabel value="Ingrese raza" />
+					<p:selectOneMenu  value="#{gestionTerneraBean.terneraSelecc.raza}">
+						<f:selectItems value="#{gestionTerneraBean.getRazaList()}"/>
+					</p:selectOneMenu> 
+					
+					<p:outputLabel value="Ingrese Tipo de parto" />
+					<p:selectOneMenu value="#{gestionTerneraBean.terneraSelecc.tipo_de_parto}">
+		   				<f:selectItem itemValue="Natural" itemLabel="Natural" />
+		   				<f:selectItem itemValue="Cesarea" itemLabel="Cesarea" />
+					</p:selectOneMenu>
+					
+					
+					<p:commandButton value="Guardar"
+						action="#{gestionTerneraBean.crearTernera()}" update=":DatosTernera"/>
+				</p:panelGrid>
+			
+			</h:form>
+		</p:dialog>
+		
+		<br/>
+		
+	
+		<h:form id="DatosTernera">
+				
+				
+				<p:dataTable widgetVar="TernerasTable" value="#{gestionTerneraBean.terneraList}" var="t" paginator="true" rows="10" rowSelectMode="add"
+				paginatorPosition="bottom" filterdValue="#{gestionTerneraBean.terneraSelecc.caravana_snig}"
+				globalFilterOnly="#{gestionTerneraBean.terneraSelecc.caravana_snig}">
+					
+					<f:facet name="header">
+						<div class="flex align-items-center justify-contenten-between">
+							<span>Lista de terneras</span>
+							<div>
+								<p:inputText id="globalFilter" value="#{gestionTerneraBean.id}" onKeyup="PF('DatosTernera').filter()" placeholder="Filtro"/>
+								<p:commandButton value="Filtro Caravana" action="#{gestionTerneraBean.seleccionarTerneras()}" update=":DatosTernera" styleClass="ml-2"/>
+							</div>
+						</div>
+					</f:facet>
+					
+					<p:column  sortBy="#{t.id_ternera}">
+						<f:facet name="header">Identificador</f:facet>
+						#{t.id_ternera}
+					</p:column>
+					
+					<p:column  sortBy="#{t.caravana_snig}" filterMatchMode="contains">
+						<f:facet name="header">Caravana snig</f:facet>    				
+						#{t.caravana_snig}
+					</p:column>
+					
+					<p:column shortBy="#{t.id_guachera}">
+						<f:facet name="header">Id Guachera</f:facet>
+						#{t.id_guachera}
+					</p:column>
+					
+					<p:column  sortBy="#{t.id_madre}">
+						<f:facet name="header">Id Madre</f:facet>
+						#{t.id_madre}
+					</p:column>
+					
+					<p:column  sortBy="#{t.id_padre}">
+						<f:facet name="header">Id Padre</f:facet>
+						#{t.id_padre}
+					</p:column>
+					
+					<p:column sortBy="#{t.fecha_nto}">
+						<f:facet name="header">Fecha de nacimiento</f:facet>
+					    #{t.fecha_nto}   
+					</p:column>
+					
+					<p:column sortBy="#{t.peso_al_nacer}">
+						<f:facet name="header">Peso al nacer</f:facet>
+					    #{t.peso_al_nacer}
+					    
+					</p:column>
+					
+					<p:column sortBy="#{t.raza}">
+						<f:facet name="header">Raza</f:facet>
+					    #{t.raza}
+					</p:column>
+					
+					<p:column sortBy="#{t.tipo_de_parto}">
+						<f:facet name="header">Tipo de parto</f:facet>
+					    #{t.tipo_de_parto}
+					</p:column>
+					
+					<p:column headerText="Temperatura">
+						<p:commandButton value="Tomar Temperatura"
+							actionListener="#{gestionTemperaturaBean.obtengoTernera(t)}" update=":j"
+							onclick="PF('valor3').show();">
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Alimentar">
+						<p:commandButton value="Alimentar"
+							actionListener="#{gestionAlimTerneraBean.obtengoTernera(t)}" update=":d"
+							onclick="PF('valor2').show();">
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Actualizar">
+						<p:commandButton value="Actualizar"
+							actionListener="#{gestionTerneraBean.cargarDatosTernera(t)}" update=":p"
+							onclick="PF('valor1').show();">
+						</p:commandButton>
+					</p:column>
+					
+					<p:column headerText="Eliminar">
+						<p:commandButton value="Eliminar"
+							actionListener="#{gestionTerneraBean.borrarTernera(t)}" update=":DatosTernera">
+						</p:commandButton>
+					</p:column>
+					
+					
+					
+				</p:dataTable>
+		</h:form>
+		
+		<p:dialog widgetVar="valor2" showEffect="clip"
+			header="Alimentar Ternera" resizable="false">
+			<h:form id="d">
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Id Ternera" />
+					<p:inputText id ="idTern" value="#{gestionAlimTerneraBean.alimTerneraSelecc.caravana_ternera}" />
+					
+					<p:outputLabel value="Alimento" />
+					<p:selectOneMenu  value="#{gestionAlimTerneraBean.alimTerneraSelecc.id_alimento}">
+						<f:selectItems value="#{gestionAlimtoBean.obtenerAlimento()}" var="a" 
+						itemValue="#{a.id_alimento}" itemLabel="#{a.nombre}"/>
+					</p:selectOneMenu> 
+	
+					<p:outputLabel value="Fecha alimento" />
+					<p:calendar id="fechaAlim" maxdate="today" readonlyInput="true" showOn="button" 
+					effect="drop" autocomplete="off" value="#{gestionAlimTerneraBean.alimTerneraSelecc.fecha_alim}"/>
+					
+					<p:outputLabel value="Usuario" />
+					<p:inputText id ="Usuario" value="#{gestionAlimTerneraBean.alimTerneraSelecc.usuario}" />
+					
+					<p:outputLabel value="Cantidad" />
+					<p:inputText id="Cantidad" value="#{gestionAlimTerneraBean.alimTerneraSelecc.cantidad}" />
+					
+					<p:commandButton value="Guardar"
+						action="#{gestionAlimTerneraBean.crearAlimTernera()}" update=":DatosTernera" >
+	
+						</p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+		
+		<p:dialog widgetVar="valor3" showEffect="clip"
+			header="Tomar tempratura" resizable="false">
+			<h:form id="j">
+				<p:panelGrid columns="2">
+					
+					<p:outputLabel value="Caravana Ternera" />
+					<p:inputText id ="carTemp" value="#{gestionTemperaturaBean.tempSelecc.caravana}" />
+					
+					<p:outputLabel value="Temperatura" />
+					<p:inputNumber id="Temperatura" value="#{gestionTemperaturaBean.tempSelecc.temp}" symbol="°C" symbolPosition="s" />
+					
+					<p:outputLabel value="fecha" />
+					<p:calendar id="fechaTemp" maxdate="today" readonlyInput="true" showOn="button" 
+					effect="drop" autocomplete="off" value="#{gestionTemperaturaBean.tempSelecc.fecha}"/>
+					
+					<p:outputLabel value="usuario" />
+					<p:selectOneMenu id ="usuTemp" value="#{gestionTemperaturaBean.tempSelecc.usuario}" filter="true" filterMatchMode="startsWith">
+						<f:selectItems value="#{gestionUsuarios.listarUsuarios()}" var="u" 
+						itemValue="#{u.nombre_usuario}" itemLabel="#{u.nombre_usuario}" />
+					</p:selectOneMenu>
+					
+					<p:commandButton value="Guardar"
+						action="#{gestionTemperaturaBean.tomarTemperatura()}" update=":DatosTernera" >
+	
+						</p:commandButton>
+				</p:panelGrid>
+			</h:form>
+		</p:dialog>
+			
+		<p:growl id="msj" />
+	</h:body>
+</ui:define>
+</ui:composition>

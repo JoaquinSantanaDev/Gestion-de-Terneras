@@ -1,0 +1,241 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">
+		<c:set var="title" value="Página Principal" scope="request" />
+	</ui:define>
+
+	<ui:define name="content">
+		<c:if
+			test="${gestionSesison.getCurrentInstance().getUserType().equals('Admin')}">
+			<div
+				style="background-image: url('/Proyecto/img/fondoAdmin.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; border-radius: 2px;">
+				<h:panelGrid columns="2">
+					<h:panelGrid columns="1">
+						<h:link outcome="pages/DatosUsuario.xhtml">
+							<f:param name="id" value="" />
+							<f:param name="modalidad" value="insert" />
+							<div class="card">
+								<img alt="" src="img/adduser.png" />
+								<div class="details">
+									<h4>Alta Usuarios</h4>
+									<p>Dar de alta a los usuarios</p>
+								</div>
+							</div>
+						</h:link>
+						<br />
+						<a href="/Proyecto/pages/Usuarios.xhtml">
+							<div class="card">
+								<img alt="" src="img/seeusers.png" />
+								<div class="details">
+									<h4>Usuarios</h4>
+									<p>Visualizar a los usuarios</p>
+								</div>
+							</div>
+						</a>
+						<a href="/Proyecto/rest/usuarios/listarUsuarios">
+							<div class="card">
+								<img alt="" src="img/jsonuser.png" />
+								<div class="details">
+									<h4>Usuarios JSON</h4>
+									<p>Visualizar a los usuarios con formato JSON</p>
+								</div>
+							</div>
+						</a>
+						
+					</h:panelGrid>
+				</h:panelGrid>
+			</div>
+		</c:if>
+		<c:if
+			test="${gestionSesison.getCurrentInstance().getUserType().equals('Encargado')}">
+			<div
+				style="background-image: url('/Proyecto/img/fondoEncargado.png'); border-radius: 2px; background-repeat: no-repeat; background-attachment: fixed; background-size: 100%; background-attachment: fixed;">
+				<h:panelGrid columns="2">
+				<!--
+					<h:link outcome="">
+						<f:param name="id" value="" />
+						<f:param name="modalidad" value="insert" />
+						<div class="card">
+							<img alt="" src="img/addmedicine.png" />
+							<div class="details">
+								<h4>Alta Medicamento</h4>
+								<p>Dar de alta nuevo medicamento</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/medicine.png" />
+							<div class="details">
+								<h4>Medicamento</h4>
+								<p>Visualizar a los medicamentos</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/jsonmedicine.png" />
+							<div class="details">
+								<h4>Medicamento JSON</h4>
+								<p>Visualizar a los medicamentos en JSON</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/addsickness.png" />
+							<div class="details">
+								<h4>Alta Enfermedad</h4>
+								<p>Dar de alta nueva enfermedad</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/sickness.png" />
+							<div class="details">
+								<h4>Enfermedad</h4>
+								<p>Visualizar a las enfermedades</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/jsonsickness.png" />
+							<div class="details">
+								<h4>Enfermedad JSON</h4>
+								<p>Visualizar a las enfermedades en JSON</p>
+							</div>
+						</div>
+					</h:link>
+					-->
+					<h:link outcome="pages/Terneras.xhtml">
+						<f:param name="id" value="" />
+						<f:param name="modalidad" value="insert" />
+						<div class="card">
+							<img alt="" src="img/addternera.png" />
+							<div class="details">
+								<h4>Mantenimiento de Terneras</h4>
+								<p>Todo el mantenimiento relacionado con la ternera</p>
+							</div>
+						</div>
+					</h:link>
+					<!-- 
+					<h:link outcome="">
+						<f:param name="id" value="" />
+						<f:param name="modalidad" value="insert" />
+						<div class="card">
+							<img alt="" src="img/ternera.png" />
+							<div class="details">
+								<h4>Terneras</h4>
+								<p>Visualizar a las terneras</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<f:param name="id" value="" />
+						<f:param name="modalidad" value="insert" />
+						<div class="card">
+							<img alt="" src="img/jsonternera.png" />
+							<div class="details">
+								<h4>Terneras JSON</h4>
+								<p>Visualizar a las terneras en formato JSON</p>
+							</div>
+						</div>
+					</h:link>
+					
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/listado.png" />
+							<div class="details">
+								<h4>Listados</h4>
+								<p>Visualizar los listados de los costos y pesos por ternera
+									o guachera</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/datoshistoricos.png" />
+							<div class="details">
+								<h4>Datos historicos</h4>
+								<p>Permite importar exels y guardar su contenido</p>
+							</div>
+						</div>
+					</h:link>
+					 -->
+				</h:panelGrid>
+			</div>
+		</c:if>
+		<c:if
+			test="${gestionSesison.getCurrentInstance().getUserType().equals('Personal')}">
+			<div
+				style="background-image: url('/Proyecto/img/fondoPersonal.jpg'); background-size: cover; background-repeat: no-repeat; background-attachment: fixed; border-radius: 2px;">
+				<h:panelGrid columns="3">
+					<h:link outcome="">
+						<f:param name="id" value="" />
+						<f:param name="modalidad" value="insert" />
+						<div class="card">
+							<img alt="" src="img/addcoweating.png" />
+							<div class="details">
+								<h4>Asignar alimentacion</h4>
+								<p>Creación de alimentación asignada a una ternera</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/coweating.png" />
+							<div class="details">
+								<h4>Alimentaciones</h4>
+								<p>Visualizar las alimentaciones</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/jsoncoweating.png" />
+							<div class="details">
+								<h4>Alimentaciones JSON</h4>
+								<p>Visualizar a las alimentaciones en JSON</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/addthermometer.png" />
+							<div class="details">
+								<h4>Asignar temperatura</h4>
+								<p>Crear registro de temperatura de una ternera</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/thermometer.png" />
+							<div class="details">
+								<h4>Temperaturas</h4>
+								<p>Visualizar las temperaturas registradas</p>
+							</div>
+						</div>
+					</h:link>
+					<h:link outcome="">
+						<div class="card">
+							<img alt="" src="img/jsonthermometer.png" />
+							<div class="details">
+								<h4>Temperaturas JSON</h4>
+								<p>Visualizar a las temperaturas registradas en JSON</p>
+							</div>
+						</div>
+					</h:link>
+				</h:panelGrid>
+			</div>
+		</c:if>
+	</ui:define>
+</ui:composition>

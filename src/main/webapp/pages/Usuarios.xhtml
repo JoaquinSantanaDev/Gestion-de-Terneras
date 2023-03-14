@@ -1,0 +1,91 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<ui:composition template="/layout/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:c="http://java.sun.com/jsp/jstl/core"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="title">
+		<c:set var="title" value="Gestion de Usuarios" scope="request" />
+	</ui:define>
+	
+	<ui:define name="content">
+		<h:form>
+			<h:button value="Volver" outcome="/index" ></h:button>
+			<h3><h:outputLabel value="Criterios de Seleccion"/></h3>
+		
+			
+			 <p:messages id="messages" showDetail="true" closable="true">
+	        	<p:autoUpdate />
+	    	</p:messages>
+			<h:panelGrid columns="2">
+				<p:outputLabel value="Nombre" />
+				<p:inputText id="nombre" value="#{gestionUsuarios.criterioNombre}" />
+				
+				<p:outputLabel value="Tipo" />
+				<p:selectOneMenu value="#{gestionUsuarios.criterioTipo}">
+	   				<f:selectItem itemValue="" itemLabel="--Todos--" />
+	   				<f:selectItem itemValue="ADMINISTRADOR" itemLabel="Administrador" />
+	   				<f:selectItem itemValue="ENCARGADO" itemLabel="Encargado" />
+	   				<f:selectItem itemValue="PERSONAL" itemLabel="Personal" />
+				</p:selectOneMenu>
+	
+				<p:outputLabel value="Estado" />
+				<p:selectOneMenu value="#{gestionUsuarios.criterioEstado}">
+	   				<f:selectItem itemValue="Activo" itemLabel="Activo" />
+	   				<f:selectItem itemValue="Inactivo" itemLabel="Inactivo" />
+				</p:selectOneMenu>
+				
+			</h:panelGrid>
+			<h:commandButton value="Buscar"	action="#{gestionUsuarios.seleccionarUsuarios}" />
+			
+		</h:form>
+		
+		<h3><h:outputLabel value="Usuarios seleccionados"/></h3>
+		<p:dataTable value="#{gestionUsuarios.usuariosSeleccionados}"
+			var="usuario"
+			   styleClass = "employeeTable"
+	   		   headerClass = "employeeTableHeader">
+	   
+	   		<p:column  sortBy="#{usuario.id}">
+				<f:facet name="header">Identificador</f:facet>
+	      		#{usuario.id}
+	   		</p:column>
+	   
+	        
+			<p:column  sortBy="#{usuario.nombre}">
+				<f:facet name="header">Nombre</f:facet>    				
+	      		#{usuario.nombre}
+	   		</p:column>
+	   		
+	   		<p:column shortBy="#{usuario.apellido}">
+	   			<f:facet name="header">Apellido</f:facet>
+	   			#{usuario.apellido}
+	   		</p:column>
+	   		
+	   		<p:column  sortBy="#{usuario.nombre_usuario}">
+				<f:facet name="header">Nombre de usuario</f:facet>
+	      		#{usuario.nombre_usuario}
+	   		</p:column>
+	
+			<p:column sortBy="#{usuario.tipo}">
+				<f:facet name="header">Tipo</f:facet>
+			    #{usuario.tipo}
+			</p:column>
+			<p:column>
+				<f:facet name="header">Atributo</f:facet>
+				#{usuario.dato}
+			</p:column>
+			
+			<p:column sortBy="#{usuario.id}">
+				<f:facet name="header">Detalles</f:facet>
+		      	<p:commandLink  action="#{gestionUsuario.detalles(usuario.id)}"  >
+	                <h:outputText value="Ver detalles" />
+		         </p:commandLink>
+		    </p:column>
+			
+		</p:dataTable>
+		
+    </ui:define>
+</ui:composition>
