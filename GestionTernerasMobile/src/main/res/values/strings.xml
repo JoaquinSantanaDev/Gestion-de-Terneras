@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">PFT_TheBoys</string>
+
+    <string-array name="tipo_parto">
+        <item>Cesárea</item>
+        <item>Natural</item>
+    </string-array>
+</resources>
